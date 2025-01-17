@@ -15,16 +15,11 @@ server.listen(3000, () => {
 });
 
 io.on('connection', (socket) => {
-    players.push({ posx: 100, posy: 450, id: socket.id, animState: 'left'})
   console.log(`Player connected: ${socket.id}`);
 
   socket.on('updatePlayers', (data) => {
     for (player of players ){
         if (player.id === socket.id){
-            player.posx = data.posx;
-            player.posy = data.posy;
-            player.animState = data.animState
-            if (Math.random() < 0.03) console.log(player.animState)
         }
     }
     io.emit('updatePlayers', players);
