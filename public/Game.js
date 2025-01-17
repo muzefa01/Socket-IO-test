@@ -1,3 +1,7 @@
+import {test} from './test.js'
+//import { CharBody } from './charBody.js';
+//import { Geom } from '../node_modules/phaser';
+
 class Game extends Phaser.Scene {
     constructor() {
       super('Game');
@@ -86,12 +90,15 @@ class Game extends Phaser.Scene {
       if (this.cursors.left.isDown) {
         this.player.setVelocityX(-160);
         this.player.anims.play('left', true);
+        this.player.animState = 'left'
       } else if (this.cursors.right.isDown) {
         this.player.setVelocityX(160);
         this.player.anims.play('right', true);
+        this.player.animState = 'right'
       } else {
         this.player.setVelocityX(0);
         this.player.anims.play('turn');
+        this.player.animState = 'turn'
       }
   
       if (this.cursors.up.isDown && this.player.body.touching.down) {
@@ -103,13 +110,15 @@ class Game extends Phaser.Scene {
         id: this.socket.id,
         posx: this.player.x,
         posy: this.player.y,
+        animState: this.player.animState,
+        collect: 0
       });
   
    
       if (!this.listenerAdded) {
         this.listenerAdded = true;
-  
-        this.socket.on('updatePlayers', (data) => {
+        
+        const socketUpdate = (data) => {
           // Clear existing sprites for other players
           for (let sprite of this.otherSprites) {
             sprite.destroy(true);
@@ -128,10 +137,9 @@ class Game extends Phaser.Scene {
                   'dude'
                 );
                 this.otherSprites.push(newPlayer);
-              }
-            }
-          }
-        });
+              }}}}
+        this.socket.on('updatePlayers', socketUpdate);
+      
       }
     }
   
@@ -162,6 +170,21 @@ class Game extends Phaser.Scene {
     }
   }
   
- 
   window.Game = Game;
-  
+//
+
+  const config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    scene: Game,
+    physics: {
+      default: 'arcade',
+      arcade: {
+        gravity: { y: 300 },
+        debug: false,
+      },
+    },
+  };
+
+  const game = new Phaser.Game(config);

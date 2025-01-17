@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <base href=".">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Phaser with Socket.IO</title>
@@ -13,23 +14,6 @@
   </style>
 </head>
 <body>
-  <script src="Game.js"></script>
-  <script>
-    const config = {
-      type: Phaser.AUTO,
-      width: 800,
-      height: 600,
-      scene: Game,
-      physics: {
-        default: 'arcade',
-        arcade: {
-          gravity: { y: 300 },
-          debug: false,
-        },
-      },
-    };
-
-    const game = new Phaser.Game(config);
-  </script>
+  <script type="module" src="public/Game.js"></script>
 </body>
 </html>

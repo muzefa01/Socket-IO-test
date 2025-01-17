@@ -8,14 +8,14 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-app.use(express.static('public'));
+app.use(express.static('.'));
 
 server.listen(3000, () => {
   console.log('Server running on http://localhost:3000');
 });
 
 io.on('connection', (socket) => {
-    players.push({ posx: 100, posy: 450, id: socket.id})
+    players.push({ posx: 100, posy: 450, id: socket.id, animState: 'left'})
   console.log(`Player connected: ${socket.id}`);
 
   socket.on('updatePlayers', (data) => {
@@ -23,6 +23,8 @@ io.on('connection', (socket) => {
         if (player.id === socket.id){
             player.posx = data.posx;
             player.posy = data.posy;
+            player.animState = data.animState
+            if (Math.random() < 0.03) console.log(player.animState)
         }
     }
     io.emit('updatePlayers', players);
