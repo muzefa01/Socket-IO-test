@@ -9,11 +9,10 @@ class Game extends Phaser.Scene {
   
     preload() {
       //this.load.image('sky', 'assets/sky.png');
-      this.load.image('head1', './head1.png')
+      this.load.image('head1', 'public/assets/head1.png')
     }
   
     create() {
-
       this.testCharBody = []
         if (true) for (let i = 0; i < 1; i++) {
             this.testCharBody.push(new CharBody(this, {x:100 + i * 150, y:580}, {
